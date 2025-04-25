@@ -1,25 +1,38 @@
-﻿// RAWBitDetector.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿/*
+25 april 2025
+
+Maximov Evgeny
+9890175@mail.ru
+
+
+RAW depth bit calculator
+*/
+
+#ifdef WIN32
+
+	#include "libraw/libraw.h"
+
+	#define LIBRAW_WIN32_CALLS	1
+
+	#ifndef LIBRAW_WIN32_CALLS
+		#include <netinet/in.h>
+	#else
+		#include <winsock2.h>
+	#endif
+
+	#ifdef LIBRAW_WIN32_CALLS
+		#define snprintf _snprintf
+	#endif
+#else
+	#include <libraw/libraw.h>
+#endif
 
 #include <iostream>
 #include <stdio.h>
 
-#include "libraw\libraw.h"
 #include "classMinMax.h"
 
 #include <math.h>
-
-#define LIBRAW_WIN32_CALLS
-
-#ifndef LIBRAW_WIN32_CALLS
-#include <netinet/in.h>
-#else
-#include <winsock2.h>
-#endif
-
-#ifdef LIBRAW_WIN32_CALLS
-#define snprintf _snprintf
-#endif
 
 unsigned int GetCoord(unsigned int x, unsigned int y, unsigned int width)
 {
@@ -76,11 +89,6 @@ int main(int arg_count, char* arg[])
 		int LibRAW_Result = 0;
 
 		int processing_state = 0;
-
-		for (int i = 0; i < arg_count; i++)
-		{
-			printf("%s\n", arg[i]);
-		}
 
 		if (arg_count > 1)
 		{
@@ -160,7 +168,7 @@ int main(int arg_count, char* arg[])
 		}
 
 		RawConverter.recycle();
-		//getchar();
+		getchar();
 		return 0;
 	}
 }
